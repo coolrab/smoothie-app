@@ -1,26 +1,12 @@
 <template>
-  <div class="home">
-    
-      <v-row dense class="my-4">
-        <v-col cols="4" class="px-4" v-for="smoothie in smoothies" :key= "smoothie.id">
-          <v-card class="px-4" >
-            <v-card-title >{{ smoothie.title }}</v-card-title>
-            <v-list-item v-for="(ingredient, i) in smoothie.ingredients" :key="i">
-              <v-chip small flat class="pink lighten-3">
-                <v-list-item-content>{{ingredient}}</v-list-item-content>
-              </v-chip>
-            </v-list-item>
-            <v-card-text></v-card-text>
-          </v-card>
-        </v-col>
-      </v-row>
-    
-  </div>
+  <v-container>
+
+  </v-container>
 </template>
 
 <script>
   export default {
-    name: 'Home',
+    name: 'Index',
 
     data: () => ({
       smoothies: [
