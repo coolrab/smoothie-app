@@ -4,6 +4,9 @@
       <v-row dense class="my-4">
         <v-col cols="4" class="px-4" v-for="smoothie in smoothies" :key= "smoothie.id">
           <v-card class="px-4" >
+            <v-btn absolute right text class="mt-4" @click="deleteSmoothie(smoothie.id)">
+              <v-icon  >mdi-delete</v-icon>
+            </v-btn>
             <v-card-title >{{ smoothie.title }}</v-card-title>
             <v-list-item v-for="(ingredient, i) in smoothie.ingredients" :key="i">
               <v-chip small flat class="pink lighten-3">
@@ -44,5 +47,14 @@
         },
       ]
     }),
+
+    methods: {
+      deleteSmoothie(id){
+        this.smoothies = this.smoothies.filter(smoothie => {
+          return smoothie.id != id
+        })
+
+      }
+    }
   }
 </script>
