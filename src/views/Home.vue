@@ -22,39 +22,39 @@
 </template>
 
 <script>
+ import db from '@/firebase/init';
   export default {
     name: 'Home',
 
     data: () => ({
       smoothies: [
-        {
-          id: '1',
-          title: 'Sharbat-e-Jannat',
-          slug:'sharbat-e-jannat',
-          ingredients:['lemon', 'water', 'sugar']
-        },
-        {
-          id: '2',
-          title: 'Beler-Sharbat',
-          slug:'beler-sharbat',
-          ingredients:['bel', 'water', 'sugar', 'milk']
-        },
-        {
-          id: '3',
-          title: 'Kacha-Amer-Sharbat',
-          slug:'beler-sharbat',
-          ingredients:['green mango', 'water', 'sugar', 'salt', 'green chilli']
-        },
+      
       ]
     }),
 
     methods: {
       deleteSmoothie(id){
-        this.smoothies = this.smoothies.filter(smoothie => {
+        //delete doc from firestore
+        db.collection('smoothies').doc(id).delete()
+        .then( () => {
+          this.smoothies = this.smoothies.filter(smoothie => {
           return smoothie.id != id
         })
-
+        })
+        
+        console.log(id)
       }
+    },
+    created() {
+      //fetch data from firestore
+      db.collection('smoothies').get() 
+      .then(snapshot => {
+        snapshot.forEach(doc => {
+          let smoothie = doc.data()
+          smoothie.id = doc.id
+          this.smoothies.push(smoothie)
+        });
+      })
     }
   }
 </script>

@@ -1,36 +1,29 @@
 <template>
-    <nav class="navbar">
-        
+    <nav class="navbar">   
     <v-app-bar
       color="indigo darken-2"
       dark
+      flat
       height="100"
     >
       <v-app-bar-nav-icon></v-app-bar-nav-icon>
-        <v-div class="nav-content">
-            <router-link to="">
-                <span class="nav-title">
-                    Smoothie Bar
-                </span>
-            </router-link>
-            <a href="">
-                <v-btn
-                color="pink"
-                dark
-                large
-                absolute
-                bottom
-                right
-                fab
-              >
-                <v-icon large>mdi-plus</v-icon>
-              </v-btn>
-            </a>
-        </v-div>
-      <v-toolbar-title>
-          <span>Title</span>
-      </v-toolbar-title>
-
+        <v-toolbar-title class="text-uppercase" @click="goHome">
+          <span>Cool </span>
+          <span class="font-weight-light">Smoothies</span>
+        </v-toolbar-title>
+        <v-btn
+        color="pink"
+        dark
+        large
+        absolute
+        bottom
+        right
+        fab
+        @click="smoothieForm"
+      >
+        <v-icon large>mdi-plus</v-icon>
+      </v-btn> 
+     
       <v-spacer></v-spacer>
 
       <v-btn text>
@@ -47,7 +40,18 @@
 
 <script>
     export default {
-      name: 'Navbar'  
+      name: 'Navbar', 
+      data: ()=> ({
+
+      }),
+      methods: {
+        smoothieForm() {
+          this.$router.push('/add-smoothie')
+        },
+        goHome() {
+          this.$router.push('/')
+        },
+      } 
     }
 </script>
 

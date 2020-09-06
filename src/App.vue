@@ -1,10 +1,9 @@
 <template>
   <v-app>
     <Navbar />
-    <v-content class="px-6 py-6 grey lighten-4">
-      
-      <router-view></router-view>
-    </v-content>
+    <v-main class="px-6 py-6 grey lighten-4">
+      <router-view />
+    </v-main>
   </v-app>
 </template>
 
