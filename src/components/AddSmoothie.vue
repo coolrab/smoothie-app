@@ -7,7 +7,7 @@
                 <v-form ref="form">
                 <v-text-field label="Title" v-model="title" prepend-icon="mdi-pencil-circle" :rules="inputRules"></v-text-field>
                 <div v-for="(ing, index) in ingredients" :key="index">
-                    <v-text-field label="Ingredient" v-model="ingredients[index]" prepend-icon="mdi-pencil-circle"></v-text-field>
+                    <v-text-field label="Ingredient" v-model="ingredients[index]" prepend-icon="mdi-pencil-circle" clear-icon="mdi-close-circle" clearable></v-text-field>
                 </div>
                 <v-text-field label="Add-Ingredient"  prepend-icon="mdi-pencil-circle" :rules="inputRules" @keypress.enter.prevent="addIng" v-model="another"></v-text-field>
                 </v-form>   
@@ -20,6 +20,7 @@
 
 <script>
     import db from '@/firebase/init'
+    import slugify from 'slugify'
     export default {
         name: 'AddSmoothie',
         data: ()=> ({
@@ -33,24 +34,43 @@
         }),
         methods: {
             addSmoothie() {
+                // this.$refs.form.resetValidation()
                 if(this.$refs.form.validate()) {
+                    //create a slug
+                    this.slug = slugify(this.title, {
+                        replacement: '-',
+                        remove: /[$*_+~.()'"!\-:@]/g,
+                        lower: true,
+                    })
                     db.collection('smoothies').add({
                         title: this.title,
-                        ingredients: this.ingredients
+                        ingredients: this.ingredients,
+                        slug: this.slug,
+                    }).then(()=> {
+                        this.$router.push({name: 'Home'})
+                    }).catch(err => {
+                        console.log(err)
                     })
                     this.$refs.form.reset()
-                    this.$refs.form.resetValidation()
+                    
                 }
                 // console.log(this.title, this.ingredients )
                 
             },  
             addIng(){
+                this.$refs.form.resetValidation()
                 if(this.$refs.form.validate()) {
                     this.ingredients.push(this.another)
                     this.another = ''
                     this.$refs.form.resetValidation()
                     console.log(this.ingredients)
                 }
+            },
+            deleteIng(ing) {
+                this.$refs.form.resetValidation()
+                this.ingredients = this.ingredients.filter(ingridient => {
+                    return ingridient != ing
+                })
             }
         }
     }

@@ -5,7 +5,7 @@
         <v-col cols="4" class="px-4" v-for="smoothie in smoothies" :key= "smoothie.id">
           <v-card class="px-4" >
             <v-btn absolute right text class="mt-4" @click="deleteSmoothie(smoothie.id)">
-              <v-icon  >mdi-delete</v-icon>
+              <v-icon>mdi-delete</v-icon>
             </v-btn>
             <v-card-title >{{ smoothie.title }}</v-card-title>
             <v-list-item v-for="(ingredient, i) in smoothie.ingredients" :key="i">
@@ -13,7 +13,17 @@
                 <v-list-item-content>{{ingredient}}</v-list-item-content>
               </v-chip>
             </v-list-item>
-            <v-card-text></v-card-text>
+            <v-btn
+            color="indigo"
+            dark
+            x-small
+            absolute
+            bottom
+            right
+            fab
+            @click="editSmoothie(smoothie.slug)">
+              <v-icon small text>mdi-pencil-outline</v-icon>
+            </v-btn> 
           </v-card>
         </v-col>
       </v-row>
@@ -41,8 +51,9 @@
           return smoothie.id != id
         })
         })
-        
-        console.log(id)
+      },
+      editSmoothie(slug) {
+        this.$router.push({name:'EditSmoothie', params: {smoothie_slug: slug}})
       }
     },
     created() {
@@ -55,6 +66,7 @@
           this.smoothies.push(smoothie)
         });
       })
-    }
+    },
+    
   }
 </script>
